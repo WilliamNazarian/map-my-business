@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GoogleMapReact from 'google-map-react';
 
+import Commit from "./api/api";
+import getAllUser from "./api/api";
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function App() {
@@ -22,6 +24,10 @@ function App() {
       opacity: 0.6,
     }
   }
+  useEffect(() => {
+    getAllUser().then((response) => {console.log(response)}).catch((err) => {console.log(err)})
+
+  },[])
 
   return(
     // Important! Always set the container height explicitly
