@@ -1,24 +1,21 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
-import { Row, Col, Container, Button } from 'react-bootstrap';
+import { Row, Col, Container, Button, ListGroup, Card, Stack } from 'react-bootstrap';
 import axios from 'axios'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const BOT_TOKEN = 'MTA2NjQ2Nzg5MzMyMTE1ODY5Ng.Gf2Kc0.7gL6mbWaTwI_Ni39VZCa7ZIL1bogPpd92vurRg';
-const CHANNEL_ID = '1066469784742527106';   
+const CHANNEL_ID = '1066469784742527106';
 
 async function getMessages() {
   fetch('http://localhost:8888/.netlify/functions/discord', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    method: 'GET'
   })
-  .then(res => res.json())
-  .then(data => console.log(data))
+    .then(res => res.json())
+    .then(data => console.log(data))
 }
 
-  
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function App() {
@@ -60,8 +57,19 @@ function App() {
             />
           </GoogleMapReact>
         </Col>
-        <Col lg={4}>
-          <Button onClick={() => getMessages()} variant="primary">sendMessage</Button>
+        <Col>
+          {/* <Button onClick={() => getMessages()} variant="primary">sendMessage</Button> */}
+          <Stack gap={3}>
+            <Card border="light" style={{ width: '18rem' }}>
+              <Card.Body>
+                <Card.Title style={{ fontSize: "1rem" }}>Alec Tufenkjian</Card.Title>
+                <Card.Text>
+                  Some quick example text to build on the card title and make up the
+                  bulk of the card's content.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Stack>
         </Col>
       </Row>
     </Container >
