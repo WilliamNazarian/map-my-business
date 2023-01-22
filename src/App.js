@@ -8,13 +8,14 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCircleDown, faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { Commit, noOfUsers } from "./api/api";
+import Marker from "google-map-react"
 
 library.add(fab, faCircleDown, faCircleUp);
 
 import { Row, Col, Container, Card, Stack } from "react-bootstrap";
 
 async function getMessages() {
-  const response = await fetch("http://localhost:8888/.netlify/functions/discord", {
+  const response = await fetch(".netlify/functions/discord", {
     method: "GET",
   })
     .then((res) => res.json())
@@ -56,8 +57,7 @@ function App() {
     let position = [];
     if (User.length != 0) {
       User.map((val) => {
-        console.log(val);
-        UserStruc.map((el) => {
+        UserStruc.map(el => {
           if (el.login == val.username) {
             for (let i = 0; i < el.counter; i++) {
               position.push(val.coord);
@@ -69,7 +69,7 @@ function App() {
     }
   });
 
-  const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 11 };
+  const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 17 };
 
   const [announcements, setAnnouncements] = useState([]);
 
@@ -110,8 +110,23 @@ function App() {
       <Container style={{ height: "100vh", maxWidth: "none" }}>
         <Row style={{ maxHeight: "100vh" }}>
           <Col lg={8} style={{ padding: "0" }}>
-            <GoogleMapReact bootstrapURLKeys={{ key: "AIzaSyBhll2fXJ6qdqAJlBfBHv4g5y30vdM1IqY" }} defaultCenter={defaultProps.center} defaultZoom={defaultProps.zoom} heatmapLibrary={true} heatmap={heatMapData}>
-              <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
+            <GoogleMapReact
+              bootstrapURLKeys={{ key: "AIzaSyBhll2fXJ6qdqAJlBfBHv4g5y30vdM1IqY" }}
+              defaultCenter={defaultProps.center}
+              defaultZoom={defaultProps.zoom}
+              heatmapLibrary={true}
+              heatmap={heatMapData}
+            >
+              {
+                User.map((element) => {
+                  <Marker
+                    lat={element.coord.lat}
+                    lng={element.coord.lng}
+                    text="My Marker"
+                  />
+                })
+              }
+
             </GoogleMapReact>
           </Col>
           <Col style={{ overflow: "hidden", padding: "0" }}>
