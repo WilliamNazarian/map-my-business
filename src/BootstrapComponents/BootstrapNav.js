@@ -14,9 +14,9 @@ function BootstrapNav(props) {
     }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" >
       <Container>
-        <Navbar.Brand href="#home">Map My Buisness</Navbar.Brand>
+        <Navbar.Brand href="#home">Map My Business</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end" style={{ width: "100%" }}>

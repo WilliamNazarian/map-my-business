@@ -1,6 +1,5 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import MyForm from "./MyForm";
 import Form from "react-bootstrap/Form";
 import { useRef } from "react";
 
@@ -12,7 +11,7 @@ function MyVerticallyCenteredModal(props) {
 
   const onSubmitHandler = (event)=>{
     event.preventDefault();
-    const userSubmission = {teamName:teamNameRef, githubOwnerUsername: githubOwnerUsernameRef, repositoryName: repositoryNameRef}
+    const userSubmission = {teamName:teamNameRef.current.value, githubOwnerUsername: githubOwnerUsernameRef.current.value, repositoryName: repositoryNameRef.current.value}
     props.onSubmit(userSubmission);
   }
 
@@ -40,7 +39,7 @@ function MyVerticallyCenteredModal(props) {
           <Button variant="secondary" onClick={props.onHide}>
             Close
           </Button>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" onClick={props.onHide}>
             Submit
           </Button>
         </Modal.Footer>
