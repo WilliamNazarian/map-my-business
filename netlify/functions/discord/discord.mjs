@@ -38,7 +38,7 @@ const handler = async (event) => {
 
     })
     .catch((err) => {
-      //console.log(err)
+      console.log(err)
       return {
         statusCode: 400,
         body: "Something went wrong!"

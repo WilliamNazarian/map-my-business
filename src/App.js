@@ -8,12 +8,26 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCircleDown, faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { Commit, noOfUsers } from "./api/api";
-import Marker from "google-map-react"
+
+import './App.css'
 
 library.add(fab, faCircleDown, faCircleUp);
 
 import { Row, Col, Container, Card, Stack } from "react-bootstrap";
 import image from "./logo512.png";
+
+const AnyReactComponent = ({ author, location }) => (
+  <>
+    <div className="marker" style={{height: "100px", width: "100px"}}></div>
+    <Card className="marker-pointer" style={{ width: '12rem' }}>
+      <Card.Body>
+        <Card.Subtitle className="mb-2 text-muted">{author}</Card.Subtitle>
+        <Card.Text>{location}</Card.Text>
+      </Card.Body>
+    </Card>
+  </>
+  
+);
 
 async function getMessages() {
   const response = await fetch(".netlify/functions/discord", {
@@ -25,8 +39,6 @@ async function getMessages() {
     });
   return response;
 }
-
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -78,7 +90,6 @@ function App() {
     getMessages()
       .then((res) => res.data)
       .then((announcements) => {
-        console.log(announcements);
         setAnnouncements(announcements);
       });
   };
@@ -100,7 +111,7 @@ function App() {
   };
 
   const onSubmitHandler = (usersSubmission) => {
-    console.log(usersSubmission);
+
   };
 
   return (
@@ -118,25 +129,29 @@ function App() {
               heatmapLibrary={true}
               heatmap={heatMapData}
             >
+              
               {
-                User.map((element) => {
-                  <Marker
-                    lat={element.coord.lat}
-                    lng={element.coord.lng}
-                    text="My Marker"
-                  />
-                })
+                User.map(user => (
+                  <AnyReactComponent
+                    lat={user.coord.lat}
+                    lng={user.coord.lng}
+                    author={user.Name}
+                    location={user.location}
+                  />                  
+                ))
               }
+
+                
+              
 
             </GoogleMapReact>
           </Col>
           <Col style={{ overflow: "hidden", padding: "0" }}>
-            {/* <Button onClick={() => getMessages()} variant="primary">sendMessage</Button> */}
             <Stack style={{ alignItems: "center", height: "100vh", overflowY: "scroll", scrollbarWidth: "none" }}>
               {announcements.map((announcement, index) => {
                 return (
                   <>
-                    <Container style={{ width: "100%" }}>
+                    <Container style={{ width: "100%" }} key={index}>
                       <Card border="white" style={{ width: "100%", margin: "auto" }} key={index}>
                         <Card.Body>
                           <Card.Title style={{ fontSize: "1rem" }}>
