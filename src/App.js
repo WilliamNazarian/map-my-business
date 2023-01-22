@@ -14,7 +14,6 @@ import './App.css'
 library.add(fab, faCircleDown, faCircleUp);
 
 import { Row, Col, Container, Card, Stack } from "react-bootstrap";
-import image from "./logo512.png";
 
 const AnyReactComponent = ({ author, location }) => (
   <>
