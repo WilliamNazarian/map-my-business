@@ -12,7 +12,6 @@ import { Commit, noOfUsers } from "./api/api";
 library.add(fab, faCircleDown, faCircleUp);
 
 import { Row, Col, Container, Card, Stack } from "react-bootstrap";
-import image from "./logo512.png";
 
 async function getMessages() {
   const response = await fetch("http://localhost:8888/.netlify/functions/discord", {
