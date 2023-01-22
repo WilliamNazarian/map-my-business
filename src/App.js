@@ -9,6 +9,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCircleDown, faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { Commit, noOfUsers } from "./api/api";
 import Marker from "google-map-react"
+import LeaderBoard from "./BootstrapComponents/LeaderBoard";
 
 library.add(fab, faCircleDown, faCircleUp);
 
@@ -33,27 +34,28 @@ function App() {
   const [User, setUser] = useState([]);
   const [HeatMap, setHeatMap] = useState([]);
   const [UserStruc, setUserStruc] = useState([]);
+  
 
-  useEffect(() => {
-    Commit()
+  const renderHeatMap = (owner, repo) => {
+    console.log(owner)
+    console.log(repo)
+    Commit(owner, repo)
       .then((val) => {
         setUser(val);
+        render()
       })
       .catch((error) => {
         console.log(error.message);
       });
-  }, []);
-
-  useEffect(() => {
-    noOfUsers()
+    noOfUsers(owner, repo)
       .then((response) => {
         setUserStruc(response);
+        render()
       })
       .catch((error) => {
         console.log(error.message);
       });
-  }, []);
-
+  }
   useEffect(() => {
     let position = [];
     if (User.length != 0) {
@@ -68,8 +70,11 @@ function App() {
       });
       setHeatMap(position);
     }
-  });
+    console.log(User)
 
+  },[User,UserStruc])
+
+ 
   const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 17 };
 
   const [announcements, setAnnouncements] = useState([]);
@@ -100,11 +105,11 @@ function App() {
   };
 
   const onSubmitHandler = (usersSubmission) => {
-    console.log(usersSubmission);
+    // setUserInputs({ "owner": usersSubmission.githubOwnerUsername, "repo": usersSubmission.repositoryName })
+    renderHeatMap(usersSubmission.githubOwnerUsername,usersSubmission.repositoryName)
   };
 
   return (
-    // Important! Always set the container height explicitly
     <>
       <MyVerticallyCenteredModal onSubmit={onSubmitHandler} show={showForm} onHide={() => setShowForm(false)} />
       <MyNavbar onShow={formClickHandler} />
@@ -118,15 +123,8 @@ function App() {
               heatmapLibrary={true}
               heatmap={heatMapData}
             >
-              {
-                User.map((element) => {
-                  <Marker
-                    lat={element.coord.lat}
-                    lng={element.coord.lng}
-                    text="My Marker"
-                  />
-                })
-              }
+              <LeaderBoard />
+             
 
             </GoogleMapReact>
           </Col>

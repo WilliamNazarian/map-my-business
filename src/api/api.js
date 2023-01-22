@@ -8,10 +8,10 @@ const octokit = new Octokit({
 
 
 
-export const Commit = async () => {
+export const Commit = async (Owner,Repo) => {
     const temp = await octokit.request('GET /repos/{owner}/{repo}/commits{?sha,path,author,since,until,per_page,page}', {
-        owner: 'AlecTufenkjian',
-        repo: 'map-my-business'
+        owner: Owner,
+        repo: Repo
     })
     let logins = []
     const commits = temp.data;
@@ -59,11 +59,11 @@ export const Commit = async () => {
     })
     return allSent
 }
-export const noOfUsers = async () => {
+export const noOfUsers = async (Owner,Repo) => {
 
     const temp = await octokit.request('GET /repos/{owner}/{repo}/commits{?sha,path,author,since,until,per_page,page}', {
-        owner: 'AlecTufenkjian',
-        repo: 'map-my-business'
+        owner: Owner,
+        repo: Repo
     })
     let array = []
     let arrayStru = []
