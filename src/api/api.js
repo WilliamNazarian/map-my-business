@@ -3,11 +3,12 @@ import axios from "axios"
 
 
 const octokit = new Octokit({
-    auth: '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'
+    auth: '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'
 })
 
 
-const Commit = async () => {
+
+export const Commit = async () => {
     const temp = await octokit.request('GET /repos/{owner}/{repo}/commits{?sha,path,author,since,until,per_page,page}', {
         owner: 'AlecTufenkjian',
         repo: 'map-my-business'
@@ -16,8 +17,7 @@ const Commit = async () => {
     const commits = temp.data;
     console.log(commits)
     for (let i = 0; i < commits.length; i++) {
-        console.log(commits[i].author.login)
-        if (!logins.includes(commits[i].author.login)) {
+        if (commits[i].author !== null && !logins.includes(commits[i].author.login)) {
             logins.push(commits[i].author.login)
         }
 
@@ -55,15 +55,36 @@ const Commit = async () => {
     }
     let allSent = []
     allUsers.forEach((user) => {
-        allSent.push({"username": user.login,"Name": user.name,"location" : user.location,"email" : user.email,"coord" : user.coord})
+        allSent.push({"username": user.login,"Name": user.name,"location" : user.location,"email" : user.email,"coord" : user.coord ,})
     })
     return allSent
 }
-const noOfUsers = async () => {
-    const temp = await octokit.request('GET /repos/{owner}/{repo}/commits{?sha,path,author,since,until,per_page,page}', {
-        owner: 'mubashir494',
-        repo: 'SOEN341_Team_Project'
-    })
+export const noOfUsers = async () => {
 
+    const temp = await octokit.request('GET /repos/{owner}/{repo}/commits{?sha,path,author,since,until,per_page,page}', {
+        owner: 'AlecTufenkjian',
+        repo: 'map-my-business'
+    })
+    let array = []
+    let arrayStru = []
+    temp.data.map((element) => {
+        if(element.author != null && !array.includes(element.author.login)){
+            array.push(element.author.login);
+            const obj = {"login" : element.author.login ,"counter" : 0};
+            arrayStru.push(obj)
+        }
+    })
+    console.log(array)
+    console.log(arrayStru)
+    arrayStru.map((element) =>{ 
+        temp.data.map((el) => {
+            if(el.author != null && el.author.login == element.login){
+                element.counter = element.counter +1;
+            }
+        })
+        console.log(arrayStru)
+
+    })
+    return arrayStru;
+    
 }
-export default Commit;

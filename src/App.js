@@ -6,40 +6,57 @@ import MyVerticallyCenteredModal from "./BootstrapComponents/MyVerticallyCentere
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCircleDown, faCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { Commit, noOfUsers } from "./api/api";
 
 library.add(fab, faCircleDown, faCircleUp);
 
 
-import Commit from "./api/api";
-import getAllUser from "./api/api";
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function App() {
 
   const [showForm, setShowForm] = useState(false)
-  const [User,setUser] = useState([])
-  const [HeatMap,setHeatMap] = useState([]);
+  const [User, setUser] = useState([])
+  const [HeatMap, setHeatMap] = useState([]);
+  const [UserStruc, setUserStruc] = useState([]);
 
 
 
   useEffect(() => {
     Commit().then(val => {
       setUser(val)
+      noOfUsers()
     }
-    
-    ).catch((error) => {console.log(error.message)})
-  },[])
-  
+    ).catch((error) => { console.log(error.message) })
+  }, [])
+  useEffect(() => {
+    noOfUsers().then((response) => {
+      setUserStruc(response)
+    }).catch((error) => {
+      console.log(error.message)
+    })
+  }, [])
+
   useEffect(() => {
     let position = []
-    if(User.length != 0){
+    if (User.length != 0) {
       User.map((val) => {
         console.log(val)
-        position.push(val.coord)
+        UserStruc.map(el => {
+          if (el.login == val.username) {
+            for (let i = 0; i < el.counter; i++) {
+              position.push(val.coord);
+            }
+          }
+        })
       })
       setHeatMap(position)
     }
-  },[User])
+    console.log(position)
+
+  }, [User])
+
 
   const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 11 };
 
@@ -47,13 +64,13 @@ function App() {
     positions: HeatMap,
     options: {
       radius: 50,
-      opacity: 0.6 ,
+      opacity: 0.6,
     }
   }
 
 
   const formClickHandler = () => {
-      setShowForm(true);
+    setShowForm(true);
   };
 
   return (
