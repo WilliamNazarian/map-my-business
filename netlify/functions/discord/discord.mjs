@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config()
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -12,7 +13,7 @@ const handler = async (event) => {
     method: 'get',
     url: 'https://discord.com/api/v9/channels/1066469784742527106/messages',
     headers: {
-      'Authorization': 'Bot MTA2NjQ2Nzg5MzMyMTE1ODY5Ng.GTPh_F.YyNb6mCzq1mwtmt3_mF6jqTt9zjbBDxFyD8xzI',
+      'Authorization': `Bot ${process.env.DISCORD_TOKEN}`,
     },
   };
 
@@ -37,7 +38,7 @@ const handler = async (event) => {
 
     })
     .catch((err) => {
-      console.log(err)
+      //console.log(err)
       return {
         statusCode: 400,
         body: "Something went wrong!"
