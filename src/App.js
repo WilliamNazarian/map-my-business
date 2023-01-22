@@ -15,7 +15,7 @@ import { Row, Col, Container, Card, Stack } from "react-bootstrap";
 import image from "./logo512.png";
 
 async function getMessages() {
-  const response = await fetch("http://localhost:8888/.netlify/functions/discord", {
+  const response = await fetch(".netlify/functions/discord", {
     method: "GET",
   })
     .then((res) => res.json())
