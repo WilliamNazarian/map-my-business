@@ -66,6 +66,7 @@ function App() {
           }
         });
       });
+      setHeatMap(position);
     }
   });
 
@@ -102,17 +103,6 @@ function App() {
     console.log(usersSubmission);
   };
 
-  // return (
-  // <>
-  //   {<MyVerticallyCenteredModal show={showForm} onHide={() => setShowForm(false)} />}
-  //   <MyNavbar onShow={formClickHandler} />
-  //   {/*Important! Always set the container height explicitly */}
-  //   <div style={{ height: "100vh", width: "100%" }}>
-  //     <GoogleMapReact bootstrapURLKeys={{ key: "AIzaSyBhll2fXJ6qdqAJlBfBHv4g5y30vdM1IqY" }} defaultCenter={defaultProps.center} defaultZoom={defaultProps.zoom} heatmapLibrary={true} heatmap={heatMapData}>
-  //       <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
-  //     </GoogleMapReact>
-  //   </div>
-  // </>
   return (
     // Important! Always set the container height explicitly
     <>

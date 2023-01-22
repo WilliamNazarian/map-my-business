@@ -3,7 +3,7 @@ import axios from "axios"
 
 
 const octokit = new Octokit({
-    auth: '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'
+    auth: process.env.GITHUBTOKEN
 })
 
 
