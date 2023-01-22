@@ -8,6 +8,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCircleDown, faCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { Commit, noOfUsers } from "./api/api";
+import Marker from "google-map-react"
 
 library.add(fab, faCircleDown, faCircleUp);
 
@@ -59,7 +60,6 @@ function App() {
     let position = []
     if (User.length != 0) {
       User.map((val) => {
-        console.log(val)
         UserStruc.map(el => {
           if (el.login == val.username) {
             for (let i = 0; i < el.counter; i++) {
@@ -72,7 +72,7 @@ function App() {
     }
   })
 
-  const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 11 };
+  const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 17 };
 
   const [announcements, setAnnouncements] = useState([]);
 
@@ -122,11 +122,16 @@ function App() {
               heatmapLibrary={true}
               heatmap={heatMapData}
             >
-              <AnyReactComponent
-                lat={59.955413}
-                lng={30.337844}
-                text="My Marker"
-              />
+              {
+                User.map((element) => {
+                  <Marker
+                    lat={element.coord.lat}
+                    lng={element.coord.lng}
+                    text="My Marker"
+                  />
+                })
+              }
+
             </GoogleMapReact>
           </Col>
           <Col style={{ overflow: "hidden", padding: "0" }}>
