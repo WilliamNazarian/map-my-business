@@ -6,7 +6,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faCircleDown, faCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { faCircleDown, faCircleUp, faSort } from "@fortawesome/free-solid-svg-icons";
 import { Commit, noOfUsers } from "./api/api";
 import Marker from "google-map-react"
 import LeaderBoard from "./BootstrapComponents/LeaderBoard";
@@ -19,7 +19,7 @@ import { Row, Col, Container, Card, Stack } from "react-bootstrap";
 
 const AnyReactComponent = ({ author, location }) => (
   <>
-    <div className="marker" style={{height: "100px", width: "100px"}}></div>
+    <div className="marker" style={{ height: "100px", width: "100px" }}></div>
     <Card className="marker-pointer" style={{ width: '12rem' }}>
       <Card.Body>
         <Card.Subtitle className="mb-2 text-muted">{author}</Card.Subtitle>
@@ -27,7 +27,7 @@ const AnyReactComponent = ({ author, location }) => (
       </Card.Body>
     </Card>
   </>
-  
+
 );
 
 async function getMessages() {
@@ -46,7 +46,7 @@ function App() {
   const [User, setUser] = useState([]);
   const [HeatMap, setHeatMap] = useState([]);
   const [UserStruc, setUserStruc] = useState([]);
-  
+
 
   const renderHeatMap = (owner, repo) => {
     console.log(owner)
@@ -61,7 +61,13 @@ function App() {
       });
     noOfUsers(owner, repo)
       .then((response) => {
+
+        /*
+        [{login: "", counter: ""}, ....]
+        */
+        //response.sort()
         setUserStruc(response);
+        console.log(response)
         render()
       })
       .catch((error) => {
@@ -84,9 +90,9 @@ function App() {
     }
     console.log(User)
 
-  },[User,UserStruc])
+  }, [User, UserStruc])
 
- 
+
   const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 17 };
 
   const [announcements, setAnnouncements] = useState([]);
@@ -117,7 +123,7 @@ function App() {
 
   const onSubmitHandler = (usersSubmission) => {
     // setUserInputs({ "owner": usersSubmission.githubOwnerUsername, "repo": usersSubmission.repositoryName })
-    renderHeatMap(usersSubmission.githubOwnerUsername,usersSubmission.repositoryName)
+    renderHeatMap(usersSubmission.githubOwnerUsername, usersSubmission.repositoryName)
   };
 
   return (
@@ -134,9 +140,8 @@ function App() {
               heatmapLibrary={true}
               heatmap={heatMapData}
             >
-              <LeaderBoard />
-             
-              
+
+
               {
                 User.map(user => (
                   <AnyReactComponent
@@ -144,17 +149,36 @@ function App() {
                     lng={user.coord.lng}
                     author={user.Name}
                     location={user.location}
-                  />                  
+                  />
                 ))
               }
 
-                
-              
+
+
 
             </GoogleMapReact>
           </Col>
           <Col style={{ overflow: "hidden", padding: "0" }}>
             <Stack style={{ alignItems: "center", height: "100vh", overflowY: "scroll", scrollbarWidth: "none" }}>
+              <Container style={{ width: "100%" }}>
+                <Card border="white" style={{ width: "100%", margin: "auto" }}>
+                  <Card.Body>
+                    <Card.Title style={{ fontSize: "2rem", margin: "auto", width: "fit-content", marginBottom: "15px" }}>
+                      LeaderBoard
+                    </Card.Title>
+                    {
+                      UserStruc.map(user => (
+                        <Card.Text><b>{user.login}</b> has commited {user.counter} times</Card.Text>
+                      ))
+                    }
+                    
+                  </Card.Body>
+                </Card>
+              </Container>
+              <hr style={{ width: "100%" }} />
+              <Card.Title style={{ fontSize: "2rem", margin: "auto", width: "fit-content", marginBottom: "15px" }}>
+                Announcements
+              </Card.Title>
               {announcements.map((announcement, index) => {
                 return (
                   <>
