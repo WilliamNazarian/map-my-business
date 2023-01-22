@@ -15,14 +15,14 @@ export const Commit = async (Owner,Repo) => {
     })
     let logins = []
     const commits = temp.data;
-    console.log(commits)
+
     for (let i = 0; i < commits.length; i++) {
         if (commits[i].author !== null && !logins.includes(commits[i].author.login)) {
             logins.push(commits[i].author.login)
         }
 
     }
-    console.log(logins)
+
     let allUsers = []
 
     for (let j = 0; j < logins.length; j++) {
@@ -35,7 +35,7 @@ export const Commit = async (Owner,Repo) => {
         if (allUsers[z].location != null) {
 
             let strArr = allUsers[z].location.split(" ");
-            console.log(strArr)
+
             let str = ""
             for (let s = 0; s < strArr.length; s++) {
                 if (s == s.length - 1) {
@@ -46,7 +46,7 @@ export const Commit = async (Owner,Repo) => {
                 }
             }
             let coord = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${str}&key=AIzaSyBhll2fXJ6qdqAJlBfBHv4g5y30vdM1IqY`)
-            console.log(coord.data.results[0].geometry.location)
+
             allUsers[z].coord = coord.data.results[0].geometry.location;
         }
         else{
@@ -74,16 +74,13 @@ export const noOfUsers = async (Owner,Repo) => {
             arrayStru.push(obj)
         }
     })
-    console.log(array)
-    console.log(arrayStru)
+
     arrayStru.map((element) =>{ 
         temp.data.map((el) => {
             if(el.author != null && el.author.login == element.login){
                 element.counter = element.counter +1;
             }
         })
-        console.log(arrayStru)
-
     })
     return arrayStru;
     
