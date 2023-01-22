@@ -1,0 +1,14 @@
+.icon{
+    padding: 20px;
+}
+
+.icon:hover{
+    opacity: 50%;
+}
+
+
+.mainDiv{
+    position: absolute;
+    z-index:4;
+    width: 100%;
+}
