@@ -15,31 +15,48 @@ import getAllUser from "./api/api";
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function App() {
+  const [showForm, setShowForm] = useState(false);
+  const [User, setUser] = useState([]);
+  const [HeatMap, setHeatMap] = useState([]);
 
-  const [showForm, setShowForm] = useState(false)
+  useEffect(() => {
+    Commit()
+      .then((val) => {
+        setUser(val);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    let position = [];
+    if (User.length != 0) {
+      User.map((val) => {
+        console.log(val);
+        position.push(val.coord);
+      });
+      setHeatMap(position);
+    }
+  }, [User]);
 
   const defaultProps = { center: { lat: 45.5019, lng: -73.5674 }, zoom: 11 };
 
   const heatMapData = {
-    positions: [
-      { lat: 55.5, lng: 34.56 },
-      { lat: 34.7, lng: 28.4 },
-    ],
-    options: { radius: 20, opacity: 0.6 },
+    positions: HeatMap,
+    options: {
+      radius: 50,
+      opacity: 0.6,
+    },
   };
-
-  useEffect(() => {
-    getAllUser().then((response) => {console.log(response)}).catch((err) => {console.log(err)})
-
-  },[])
 
   const formClickHandler = () => {
-      setShowForm(true);
+    setShowForm(true);
   };
 
-  const onSubmitHandler = (usersSubmission)=>{
+  const onSubmitHandler = (usersSubmission) => {
     console.log(usersSubmission);
-  }
+  };
 
   return (
     <>
