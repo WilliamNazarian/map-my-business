@@ -1,7 +1,7 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-You can access the website at https://mapmybusiness.tech/
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).                                                                    
+Access the website here [Map My Business](https://mapmybusiness.tech/).
 
 ## Available Scripts
 
